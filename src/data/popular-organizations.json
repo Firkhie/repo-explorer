@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Meta",
+    "orgname": "facebook",
+    "image": "https://avatars.githubusercontent.com/u/69631?v=4",
+    "description": "A leading social media and technology company, connecting billions of users globally through its platform.",
+    "place": "Menlo Park, California"
+  },
+  {
+    "name": "Google",
+    "orgname": "google",
+    "image": "https://avatars.githubusercontent.com/u/1342004?v=4",
+    "description": "A multinational technology company specializing in Internet-related services.",
+    "place": "Mountain View, California"
+  },
+  {
+    "name": "Microsoft",
+    "orgname": "microsoft",
+    "image": "https://avatars.githubusercontent.com/u/6154722?v=4",
+    "description": "A technology company that develops, licenses, and supports a wide range of software products.",
+    "place": "Redmond, Washington"
+  },
+  {
+    "name": "Mozilla",
+    "orgname": "mozilla",
+    "image": "https://avatars.githubusercontent.com/u/131524?v=4",
+    "description": "An organization dedicated to promoting an open and accessible Internet.",
+    "place": "Mountain View, California"
+  },
+  {
+    "name": "Apache Software Foundation",
+    "orgname": "apache",
+    "image": "https://avatars.githubusercontent.com/u/47359?v=4",
+    "description": "A nonprofit organization supporting numerous open-source software projects.",
+    "place": "Forest Hill, Maryland"
+  },
+  {
+    "name": "Node.js",
+    "orgname": "nodejs",
+    "image": "https://avatars.githubusercontent.com/u/9950313?v=4",
+    "description": "JavaScript runtime built on Chrome's V8 JavaScript engine.",
+    "place": "Open Source Community"
+  },
+  {
+    "name": "TensorFlow",
+    "orgname": "tensorflow",
+    "image": "https://avatars.githubusercontent.com/u/15658638?v=4",
+    "description": "An open-source machine learning framework developed by Google.",
+    "place": "Mountain View, California"
+  },
+  {
+    "name": "Kubernetes",
+    "orgname": "kubernetes",
+    "image": "https://avatars.githubusercontent.com/u/13629408?v=4",
+    "description": "An open-source system for automating the deployment, scaling, and management of containerized applications.",
+    "place": "Open Source Community"
+  }
+]
