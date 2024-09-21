@@ -18,7 +18,7 @@ export function OrganizationCard({ org }: OrganizationCardProps) {
   const router = useRouter();
 
   function onClick(orgname: string) {
-    router.push(`/search?org=${orgname}`);
+    router.push(`/search?orgname=${orgname}`);
   }
   
   return (

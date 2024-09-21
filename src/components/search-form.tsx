@@ -35,14 +35,14 @@ export function SearchForm({ onSearch }: SearchFormProps) {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     const { orgname } = values;
     if (!onSearch) {
-      router.push(`/search?org=${orgname}`);
+      router.push(`/search?orgname=${orgname}`);
     } else {
-      // TODO: For Search Page
+      onSearch(orgname);
     }
-  }
+  };
 
   return (
     <Form {...form}>
