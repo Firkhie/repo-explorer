@@ -1,5 +1,5 @@
 import orgData from "@/data/popular-organizations.json";
-import { OrganizationCard } from "@/components/organization-card";
+import { OrgCard } from "@/components/org-card";
 import { SearchForm } from "@/components/search-form";
 
 export default function HomePage() {
@@ -20,7 +20,11 @@ export default function HomePage() {
         <p className="text-center">
           Search for github organization to find the repositories
         </p>
-        <SearchForm />
+        <SearchForm
+          formStyle="grid w-full grid-cols-12 gap-2 rounded-lg border focus-within:shadow-sm px-3 py-3 lg:py-2"
+          formItemStyle="relative col-span-12 lg:col-span-10"
+          formButtonStyle="col-span-12 w-full lg:col-span-2"
+        />
       </div>
 
       <div className="space-y-5">
@@ -29,7 +33,7 @@ export default function HomePage() {
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {orgData.map((org) => (
-            <OrganizationCard org={org} key={org.name} />
+            <OrgCard org={org} key={org.name} />
           ))}
         </div>
       </div>

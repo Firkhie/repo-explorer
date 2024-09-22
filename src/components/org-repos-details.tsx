@@ -15,35 +15,38 @@ import Image from "next/image";
 import Link from "next/link";
 import langColor from "@/data/github-colors.json";
 
-export interface OrganizationDetailsProps {
-  orgDetails: {
-    name: string;
-    description: string;
-    avatar_url: string;
-    location: string;
-    is_verified: boolean;
-    public_repos: number;
-    followers: number;
-    following: number;
-    html_url: string;
-    blog: string;
+export interface OrgReposDetailsProps {
+  orgRepos: {
+    orgDetails: {
+      login: string;
+      name: string;
+      description: string;
+      avatar_url: string;
+      location: string;
+      is_verified: boolean;
+      public_repos: number;
+      followers: number;
+      following: number;
+      html_url: string;
+      blog: string;
+    };
+    repoList: {
+      name: string;
+      private: boolean;
+      description: string;
+      language: string;
+      stargazers_count: number;
+      forks: number;
+      watchers: number;
+    }[];
   };
-  repoList: {
-    name: string;
-    private: boolean;
-    description: string;
-    language: string;
-    stargazers_count: number;
-    forks: number;
-    watchers: number;
-  }[];
 }
 
-export function OrganizationDetails({
-  orgDetails,
-  repoList,
-}: OrganizationDetailsProps) {
+export function OrgReposDetails({
+  orgRepos: { orgDetails, repoList },
+}: OrgReposDetailsProps) {
   const {
+    login,
     name,
     description,
     avatar_url,
@@ -119,7 +122,12 @@ export function OrganizationDetails({
                 repoList.length - 1 !== index ? "border-b-[1px]" : ""
               )}
             >
-              <h3 className="font-semibold">{repo.name}</h3>
+              <Link
+                href={`/repo-commits/?owner=${login}&repo=${repo.name}`}
+                className="font-semibold"
+              >
+                {repo.name}
+              </Link>
               <p className="text-sm text-gray-400 line-clamp-3">
                 {repo.description || "No description available"}
               </p>

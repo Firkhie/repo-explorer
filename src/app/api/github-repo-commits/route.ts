@@ -17,7 +17,18 @@ export async function GET(req: Request) {
       });
     }
 
-    const response = await octokit.request(
+    const repoDetailsPromise = await octokit.request(
+      "GET /repos/{owner}/{repo}",
+      {
+        owner: owner,
+        repo: repo,
+        headers: {
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
+      }
+    );
+
+    const commitListPromise = await octokit.request(
       "GET /repos/{owner}/{repo}/commits",
       {
         owner: owner,
@@ -28,7 +39,15 @@ export async function GET(req: Request) {
       }
     );
 
-    return NextResponse.json(response.data, { status: 200 });
+    const [repoDetailsResponse, commitListResponse] = await Promise.all([
+      repoDetailsPromise,
+      commitListPromise,
+    ]);
+
+    const repoDetails = repoDetailsResponse.data;
+    const commitList = commitListResponse.data;
+
+    return NextResponse.json({ repoDetails, commitList }, { status: 200 });
   } catch (error) {
     console.log("[GET_COMMIT_ROUTE]", error);
     return new NextResponse("Failed to fetch repository commits", {

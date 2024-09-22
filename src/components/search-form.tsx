@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
-// import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +17,9 @@ import { Input } from "@/components/ui/input";
 
 interface SearchFormProps {
   onSearch?: (orgname: string) => void;
+  formStyle?: string;
+  formItemStyle?: string;
+  formButtonStyle?: string;
 }
 
 const formSchema = z.object({
@@ -26,7 +28,12 @@ const formSchema = z.object({
   }),
 });
 
-export function SearchForm({ onSearch }: SearchFormProps) {
+export function SearchForm({
+  onSearch,
+  formStyle,
+  formItemStyle,
+  formButtonStyle,
+}: SearchFormProps) {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,15 +53,12 @@ export function SearchForm({ onSearch }: SearchFormProps) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid w-full grid-cols-12 gap-2 rounded-lg border px-3 py-3 lg:py-2 focus-within:shadow-sm"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className={formStyle}>
         <FormField
           control={form.control}
           name="orgname"
           render={({ field }) => (
-            <FormItem className="col-span-12 lg:col-span-10 relative">
+            <FormItem className={formItemStyle}>
               <FormControl>
                 <Input
                   className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
@@ -66,10 +70,7 @@ export function SearchForm({ onSearch }: SearchFormProps) {
             </FormItem>
           )}
         />
-        <Button
-          className="col-span-12 w-full lg:col-span-2"
-          variant="secondary"
-        >
+        <Button className={formButtonStyle} variant="secondary">
           Search
         </Button>
       </form>
