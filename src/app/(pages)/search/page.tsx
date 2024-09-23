@@ -27,7 +27,6 @@ export default function SearchPage() {
         const response = await axios.get(
           `/api/github-org-list?orgname=${initialOrgname}`
         );
-        console.log(response.data);
         setOrgList(response.data);
       } catch (error) {
         console.error(error);

@@ -14,7 +14,7 @@ export default function RepoCommitPage() {
   const repo = searchParams.get("repo") || "";
 
   const [isLoading, setIsLoading] = useState(false);
-  const [repoDetails, setRepoDetails] = useState(null);
+  const [repoCommits, setRepoCommits] = useState(null);
   // const [commitList, setCommitList] = useState([]);
 
   useEffect(() => {
@@ -24,14 +24,14 @@ export default function RepoCommitPage() {
       setIsLoading(true);
 
       try {
-        const [repoResponse] = await Promise.all([
+        const [repoCommitsResponse] = await Promise.all([
           axios.get(`/api/github-repo-commits?owner=${org}&repo=${repo}`),
         ]);
 
-        setRepoDetails(repoResponse.data);
+        setRepoCommits(repoCommitsResponse.data);
       } catch (error) {
         console.error(error);
-        setRepoDetails(null);
+        setRepoCommits(null);
       } finally {
         setIsLoading(false);
       }
@@ -46,8 +46,8 @@ export default function RepoCommitPage() {
         <div className="flex items-center justify-center h-[60vh]">
           <Loading title="Fetching repository detail and commit history list..." />
         </div>
-      ) : repoDetails ? (
-        <RepoCommitsDetails />
+      ) : repoCommits ? (
+        <RepoCommitsDetails RepoCommits={repoCommits} />
       ) : (
         <div className="flex items-center justify-center h-[60vh]">
           <NotFound

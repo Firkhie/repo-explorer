@@ -105,9 +105,13 @@ export function OrgReposDetails({
           </div>
           <div className="flex gap-x-3 items-center">
             <Link2 className="w-5 h-5" />
-            <Link href={blog} target="_blank" className="text-sm">
-              {blog}
-            </Link>
+            {blog ? (
+              <Link href={blog} target="_blank" className="text-sm">
+                {blog}
+              </Link>
+            ) : (
+              "-"
+            )}
           </div>
         </div>
       </div>

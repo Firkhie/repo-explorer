@@ -25,7 +25,6 @@ export default function OrgRepoPage() {
         const response = await axios.get(
           `/api/github-org-repos?org=${initialOrgname}`
         );
-
         setOrgRepos(response.data);
       } catch (error) {
         console.error(error);

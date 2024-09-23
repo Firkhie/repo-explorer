@@ -3,7 +3,7 @@ import { SearchForm } from "@/components/search-form";
 
 export function Navbar() {
   return (
-    <div className="h-20 bg-[#323e4d]">
+    <div className="h-20 bg-slate-800">
       <div className="max-w-screen-xl mx-auto flex items-center justify-between h-full">
         <Link href="/" className="text-xl font-bold">
           RepoExplorer
