@@ -32,7 +32,7 @@ export function OrgCard({ org }: OrgCardProps) {
         </div>
         <div>
           <p className="font-bold line-clamp-1">{name}</p>
-          <p className="text-xs">{location ? location : "-"}</p>
+          <p className="text-xs line-clamp-1">{location ? location : "-"}</p>
         </div>
       </div>
       <p className="text-sm line-clamp-1">

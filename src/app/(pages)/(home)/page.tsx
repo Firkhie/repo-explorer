@@ -24,6 +24,7 @@ export default function HomePage() {
           formStyle="grid w-full grid-cols-12 gap-2 rounded-lg border focus-within:shadow-sm px-3 py-3 lg:py-2"
           formItemStyle="relative col-span-12 lg:col-span-10"
           formButtonStyle="col-span-12 w-full lg:col-span-2"
+          showMessage
         />
       </div>
 
@@ -31,7 +32,7 @@ export default function HomePage() {
         <p className="text-center">
           Or you can explore popular github organization below
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
           {orgData.map((org) => (
             <OrgCard org={org} key={org.name} />
           ))}
