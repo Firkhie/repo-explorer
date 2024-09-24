@@ -7,10 +7,27 @@ const octokit = new Octokit({
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
+
   const org = url.searchParams.get("org");
+
+  let sortBy = url.searchParams.get("sort_by") || "stars";
+  let sortDirection = url.searchParams.get("direction") || "desc";
+
+  const perPage = parseInt(url.searchParams.get("per_page") || "10");
+  const page = parseInt(url.searchParams.get("page") || "1");
 
   if (!org) {
     return new NextResponse("Organization name is required", { status: 400 });
+  }
+
+  const validSortBy = ["stars", "updated", "forks", "help-wanted-issues"];
+  const validOrder = ["asc", "desc"];
+
+  if (!validSortBy.includes(sortBy)) {
+    sortBy = "stars";
+  }
+  if (!validOrder.includes(sortDirection)) {
+    sortDirection = "desc";
   }
 
   try {
@@ -21,11 +38,15 @@ export async function GET(req: Request) {
       },
     });
 
-    const repoListPromise = await octokit.request("GET /orgs/{org}/repos", {
-      org: org,
+    const repoListPromise = await octokit.request("GET /search/repositories", {
       headers: {
         "X-GitHub-Api-Version": "2022-11-28",
       },
+      q: `org:${org}`,
+      sort: sortBy as "stars" | "updated" | "forks" | "help-wanted-issues",
+      order: sortDirection as "asc" | "desc",
+      per_page: perPage,
+      page: page,
     });
 
     const [orgDetailsResponse, repoListResponse] = await Promise.all([
@@ -36,11 +57,21 @@ export async function GET(req: Request) {
     const orgDetails = orgDetailsResponse.data;
     const repoList = repoListResponse.data;
 
-    return NextResponse.json({ orgDetails, repoList }, { status: 200 });
+    return NextResponse.json(
+      {
+        orgDetails,
+        repoList: repoList.items,
+        pagination: {
+          perPage,
+          currentPage: page,
+          totalRepos: repoList.total_count,
+          totalPages: Math.ceil(repoList.total_count / perPage),
+        },
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.log("[GET_ORG_ROUTE]", error);
-    return new NextResponse("Failed to fetch organization details", {
-      status: 500,
-    });
+    return new NextResponse("Failed to fetch repositories", { status: 500 });
   }
 }
