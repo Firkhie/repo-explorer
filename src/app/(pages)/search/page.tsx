@@ -12,7 +12,7 @@ import { OrgCard } from "@/components/org-card";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
-  const initialOrgname = searchParams.get("orgname") || "";
+  const initialOrgname = searchParams.get("org") || "";
 
   const [isLoading, setIsLoading] = useState(false);
   const [orgList, setOrgList] = useState([]);
@@ -25,9 +25,8 @@ export default function SearchPage() {
 
       try {
         const response = await axios.get(
-          `/api/github-org-list?orgname=${initialOrgname}`
+          `/api/github-org-list?org=${initialOrgname}`
         );
-        console.log("DATA", response.data);
         setOrgList(response.data);
       } catch (error) {
         console.error(error);
@@ -43,7 +42,7 @@ export default function SearchPage() {
   const handleSearch = (orgname: string) => {
     if (initialOrgname !== orgname) {
       // Update the URL with the new search query
-      const newUrl = `/search?orgname=${orgname}`;
+      const newUrl = `/search?org=${orgname}`;
       window.history.pushState({}, "", newUrl);
 
       // Trigger data fetching with the new orgname

@@ -18,7 +18,7 @@ export function OrgCard({ org }: OrgCardProps) {
   const router = useRouter();
 
   function onClick(orgname: string) {
-    router.push(`/org-repos?orgname=${orgname}`);
+    router.push(`/org-repos?org=${orgname}`);
   }
 
   return (

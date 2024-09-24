@@ -50,7 +50,7 @@ export function SearchForm({
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const { orgname } = values;
     if (!onSearch) {
-      router.push(`/search?orgname=${orgname}`);
+      router.push(`/search?org=${orgname}`);
     } else {
       onSearch(orgname);
     }
