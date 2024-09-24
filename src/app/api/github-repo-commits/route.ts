@@ -9,14 +9,14 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
 
-    const owner = url.searchParams.get("owner");
+    const org = url.searchParams.get("org");
     const repo = url.searchParams.get("repo");
 
-    const perPage = parseInt(url.searchParams.get("per_page") || "10");
+    const perPage = parseInt(url.searchParams.get("per_page") || "15");
     const page = parseInt(url.searchParams.get("page") || "1");
 
-    if (!owner || !repo) {
-      return new NextResponse("Owner and repo name is required", {
+    if (!org || !repo) {
+      return new NextResponse("Org and repo name is required", {
         status: 400,
       });
     }
@@ -24,7 +24,7 @@ export async function GET(req: Request) {
     const repoDetailsPromise = await octokit.request(
       "GET /repos/{owner}/{repo}",
       {
-        owner: owner,
+        owner: org,
         repo: repo,
         headers: {
           "X-GitHub-Api-Version": "2022-11-28",
@@ -35,7 +35,7 @@ export async function GET(req: Request) {
     const commitListPromise = await octokit.request(
       "GET /repos/{owner}/{repo}/commits",
       {
-        owner: owner,
+        owner: org,
         repo: repo,
         per_page: perPage,
         page: page,
@@ -70,7 +70,7 @@ export async function GET(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.log("[GET_COMMIT_ROUTE]", error);
+    console.log("[GET_REPO_COMMITS_ROUTE]", error);
     return new NextResponse("Failed to fetch repository commits", {
       status: 500,
     });

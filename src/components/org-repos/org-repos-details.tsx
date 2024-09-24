@@ -5,14 +5,14 @@ import {
 import {
   OrgRepoList,
   OrgRepoListProps,
-  RepoPagination,
+  PaginationProps,
 } from "@/components/org-repos/org-repo-list";
 
 interface OrgReposDetailsProps {
   orgRepos: {
     orgDetails: OrgProfileProps["orgDetails"];
     repoList: OrgRepoListProps["repoList"];
-    pagination: RepoPagination["pagination"];
+    pagination: PaginationProps["pagination"];
   };
 }
 

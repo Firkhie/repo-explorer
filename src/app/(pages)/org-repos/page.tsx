@@ -10,7 +10,7 @@ import { OrgReposDetails } from "@/components/org-repos/org-repos-details";
 
 export default function OrgRepoPage() {
   const searchParams = useSearchParams();
-  const initialOrgname = searchParams.get("org") || "";
+  const initialOrg = searchParams.get("org") || "";
   const initialSortBy = searchParams.get("sort_by") || "stars";
   const initialPage = searchParams.get("page") || "1";
 
@@ -19,13 +19,13 @@ export default function OrgRepoPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!initialOrgname) return;
+      if (!initialOrg) return;
 
       setIsLoading(true);
 
       try {
         const response = await axios.get(
-          `/api/github-org-repos?org=${initialOrgname}&sort_by=${initialSortBy}&page=${initialPage}`
+          `/api/github-org-repos?org=${initialOrg}&sort_by=${initialSortBy}&page=${initialPage}`
         );
         setOrgRepos(response.data);
       } catch (error) {
@@ -37,7 +37,7 @@ export default function OrgRepoPage() {
     };
 
     fetchData();
-  }, [initialOrgname, initialSortBy, initialPage]);
+  }, [initialOrg, initialSortBy, initialPage]);
 
   return (
     <div className="h-full space-y-10 lg:space-y-16 px-5 sm:px-8 md:px-10 xl:px-0 py-7 sm:py-10">

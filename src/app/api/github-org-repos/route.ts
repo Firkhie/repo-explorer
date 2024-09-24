@@ -71,7 +71,7 @@ export async function GET(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.log("[GET_ORG_ROUTE]", error);
+    console.log("[GET_ORG_REPOS_ROUTE]", error);
     return new NextResponse("Failed to fetch repositories", { status: 500 });
   }
 }

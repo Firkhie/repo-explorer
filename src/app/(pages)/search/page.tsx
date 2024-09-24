@@ -3,29 +3,29 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
+import { toast } from "sonner";
 
 import { Loading } from "@/components/loading";
 import { NotFound } from "@/components/not-found";
 import { SearchForm } from "@/components/search-form";
-import { toast } from "sonner";
 import { OrgCard } from "@/components/org-card";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
-  const initialOrgname = searchParams.get("org") || "";
+  const initialOrg = searchParams.get("org") || "";
 
   const [isLoading, setIsLoading] = useState(false);
   const [orgList, setOrgList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!initialOrgname) return;
+      if (!initialOrg) return;
 
       setIsLoading(true);
 
       try {
         const response = await axios.get(
-          `/api/github-org-list?org=${initialOrgname}`
+          `/api/github-org-list?org=${initialOrg}`
         );
         setOrgList(response.data);
       } catch (error) {
@@ -37,15 +37,15 @@ export default function SearchPage() {
     };
 
     fetchData();
-  }, [initialOrgname]);
+  }, [initialOrg]);
 
-  const handleSearch = (orgname: string) => {
-    if (initialOrgname !== orgname) {
+  const handleSearch = (org: string) => {
+    if (initialOrg !== org) {
       // Update the URL with the new search query
-      const newUrl = `/search?org=${orgname}`;
+      const newUrl = `/search?org=${org}`;
       window.history.pushState({}, "", newUrl);
 
-      // Trigger data fetching with the new orgname
+      // Trigger data fetching with the new org
       setOrgList([]);
       setIsLoading(true);
     } else {
@@ -74,7 +74,7 @@ export default function SearchPage() {
       ) : orgList.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
           {orgList.map((org, index) => (
-            <OrgCard org={org} key={index} />
+            <OrgCard orgProfile={org} key={index} />
           ))}
         </div>
       ) : (

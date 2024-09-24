@@ -10,24 +10,25 @@ import { RepoCommitsDetails } from "@/components/repo-commits/repo-commits-detai
 
 export default function RepoCommitPage() {
   const searchParams = useSearchParams();
-  const org = searchParams.get("owner") || "";
-  const repo = searchParams.get("repo") || "";
+  const initialOrg = searchParams.get("org") || "";
+  const initialRepo = searchParams.get("repo") || "";
+  const initialPage = searchParams.get("page") || "1";
 
   const [isLoading, setIsLoading] = useState(false);
   const [repoCommits, setRepoCommits] = useState(null);
-  // const [commitList, setCommitList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!org || !repo) return;
+      if (!initialOrg || !initialRepo) return;
 
       setIsLoading(true);
 
       try {
         const [repoCommitsResponse] = await Promise.all([
-          axios.get(`/api/github-repo-commits?owner=${org}&repo=${repo}`),
+          axios.get(
+            `/api/github-repo-commits?org=${initialOrg}&repo=${initialRepo}&page=${initialPage}`
+          ),
         ]);
-
         setRepoCommits(repoCommitsResponse.data);
       } catch (error) {
         console.error(error);
@@ -38,7 +39,7 @@ export default function RepoCommitPage() {
     };
 
     fetchData();
-  }, [org, repo]);
+  }, [initialOrg, initialRepo, initialPage]);
 
   return (
     <div className="h-full space-y-10 lg:space-y-16 px-5 sm:px-8 md:px-10 xl:px-0 py-7 sm:py-10">

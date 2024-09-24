@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface OrgCardProps {
-  org: {
+  orgProfile: {
     login: string;
     name: string;
     avatar_url: string;
@@ -13,12 +13,12 @@ interface OrgCardProps {
   };
 }
 
-export function OrgCard({ org }: OrgCardProps) {
-  const { login, name, avatar_url, description, location = "-" } = org;
+export function OrgCard({ orgProfile }: OrgCardProps) {
+  const { login, name, avatar_url, description, location = "-" } = orgProfile;
   const router = useRouter();
 
-  function onClick(orgname: string) {
-    router.push(`/org-repos?org=${orgname}`);
+  function onClick(org: string) {
+    router.push(`/org-repos?org=${org}`);
   }
 
   return (

@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 
 interface SearchFormProps {
-  onSearch?: (orgname: string) => void;
+  onSearch?: (org: string) => void;
   formStyle?: string;
   formItemStyle?: string;
   formButtonStyle?: string;
@@ -26,7 +26,7 @@ interface SearchFormProps {
 }
 
 const formSchema = z.object({
-  orgname: z.string().min(1, {
+  org: z.string().min(1, {
     message: "Organization name is required",
   }),
 });
@@ -43,16 +43,16 @@ export function SearchForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      orgname: "",
+      org: "",
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const { orgname } = values;
+    const { org } = values;
     if (!onSearch) {
-      router.push(`/search?org=${orgname}`);
+      router.push(`/search?org=${org}`);
     } else {
-      onSearch(orgname);
+      onSearch(org);
     }
   };
 
@@ -65,7 +65,7 @@ export function SearchForm({
       >
         <FormField
           control={form.control}
-          name="orgname"
+          name="org"
           render={({ field }) => (
             <FormItem className={formItemStyle}>
               <FormControl>

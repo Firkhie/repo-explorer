@@ -21,7 +21,7 @@ export interface RepoProfileProps {
     };
     stargazers_count: number;
     watchers_count: number;
-    language: string; //TODO: FIX TO GET ALL LANGUAGES
+    language: string; //TODO: Fix route to get languages
     forks_count: number;
     open_issues_count: number;
     topics: string[];

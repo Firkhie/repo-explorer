@@ -1,3 +1,6 @@
+import Image from "next/image";
+import Link from "next/link";
+
 import {
   CircleCheck,
   Folders,
@@ -7,8 +10,6 @@ import {
   Users,
   UsersRound,
 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 
 export interface OrgProfileProps {
   orgDetails: {

@@ -1,8 +1,9 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 
+import { cn } from "@/lib/utils";
 import langColor from "@/data/github-colors.json";
 import { Star, Eye, GitFork } from "lucide-react";
 
@@ -14,14 +15,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useSearchParams } from "next/navigation";
 import { PaginationProvider } from "@/components/pagination-provider";
 
-export interface OrgLoginProps {
+interface OrgLoginProps {
   login: string;
 }
 
-export interface RepoPagination {
+export interface PaginationProps {
   pagination: {
     perPage: number;
     currentPage: number;
@@ -30,7 +30,7 @@ export interface RepoPagination {
   };
 }
 
-export interface OrgRepoListProps extends OrgLoginProps, RepoPagination {
+export interface OrgRepoListProps extends OrgLoginProps, PaginationProps {
   repoList: {
     name: string;
     private: boolean;
@@ -44,18 +44,18 @@ export interface OrgRepoListProps extends OrgLoginProps, RepoPagination {
 
 export function OrgRepoList({ repoList, login, pagination }: OrgRepoListProps) {
   const { currentPage, totalPages } = pagination;
+  
   const searchParams = useSearchParams();
-  const initialOrgname = searchParams.get("org") || "";
+  const initialOrg = searchParams.get("org") || "";
   const initialSort = searchParams.get("sort_by") || "stars";
-  // const initialPage = searchParams.get("page") || "1";
 
   const handleSortChange = (value: string) => {
-    const newUrl = `?org=${initialOrgname}&sort_by=${value}&page=1`;
+    const newUrl = `/org-repos?org=${initialOrg}&sort_by=${value}&page=1`;
     window.history.pushState({}, "", newUrl);
   };
 
   const handlePageChange = (page: number) => {
-    const newUrl = `?org=${initialOrgname}&sort_by=${initialSort}&page=${page}`;
+    const newUrl = `/org-repos?org=${initialOrg}&sort_by=${initialSort}&page=${page}`;
     window.history.pushState({}, "", newUrl);
   };
 
@@ -86,7 +86,7 @@ export function OrgRepoList({ repoList, login, pagination }: OrgRepoListProps) {
               )}
             >
               <Link
-                href={`/repo-commits/?owner=${login}&repo=${repo.name}`}
+                href={`/repo-commits?org=${login}&repo=${repo.name}`}
                 className="font-semibold"
               >
                 {repo.name}

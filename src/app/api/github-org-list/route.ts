@@ -7,16 +7,16 @@ const octokit = new Octokit({
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const orgname = url.searchParams.get("org");
+  const org = url.searchParams.get("org");
 
-  if (!orgname) {
-    return new NextResponse("Search orgname is required", { status: 400 });
+  if (!org) {
+    return new NextResponse("Search org is required", { status: 400 });
   }
 
   try {
     // Fetch organizations that match the search query
     const orgListResponse = await octokit.request("GET /search/users", {
-      q: `${orgname} in:login`,
+      q: `${org} in:login`,
       headers: {
         "X-GitHub-Api-Version": "2022-11-28",
       },

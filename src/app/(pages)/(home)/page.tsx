@@ -1,4 +1,5 @@
 import orgData from "@/data/popular-organizations.json";
+
 import { OrgCard } from "@/components/org-card";
 import { SearchForm } from "@/components/search-form";
 
@@ -34,7 +35,7 @@ export default function HomePage() {
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
           {orgData.map((org) => (
-            <OrgCard org={org} key={org.name} />
+            <OrgCard orgProfile={org} key={org.name} />
           ))}
         </div>
       </div>
