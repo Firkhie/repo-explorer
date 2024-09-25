@@ -6,8 +6,8 @@ const octokit = new Octokit({
 });
 
 export async function GET(req: Request) {
-  const url = new URL(req.url);
-  const org = url.searchParams.get("org");
+  const { searchParams } = new URL(req.url);
+  const org = searchParams.get("org");
 
   if (!org) {
     return new NextResponse("Search org is required", { status: 400 });

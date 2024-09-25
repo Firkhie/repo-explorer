@@ -6,15 +6,15 @@ const octokit = new Octokit({
 });
 
 export async function GET(req: Request) {
-  const url = new URL(req.url);
+  const { searchParams } = new URL(req.url);
 
-  const org = url.searchParams.get("org");
+  const org = searchParams.get("org");
 
-  let sortBy = url.searchParams.get("sort_by") || "stars";
-  let sortDirection = url.searchParams.get("direction") || "desc";
+  let sortBy = searchParams.get("sort_by") || "stars";
+  let sortDirection = searchParams.get("direction") || "desc";
 
-  const perPage = parseInt(url.searchParams.get("per_page") || "10");
-  const page = parseInt(url.searchParams.get("page") || "1");
+  const perPage = parseInt(searchParams.get("per_page") || "10");
+  const page = parseInt(searchParams.get("page") || "1");
 
   if (!org) {
     return new NextResponse("Organization name is required", { status: 400 });

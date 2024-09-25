@@ -6,21 +6,19 @@ const octokit = new Octokit({
 });
 
 export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const org = searchParams.get("org");
+  const repo = searchParams.get("repo");
+
+  const perPage = parseInt(searchParams.get("per_page") || "15");
+  const page = parseInt(searchParams.get("page") || "1");
+
+  if (!org || !repo) {
+    return new NextResponse("Org and repo name is required", {
+      status: 400,
+    });
+  }
   try {
-    const url = new URL(req.url);
-
-    const org = url.searchParams.get("org");
-    const repo = url.searchParams.get("repo");
-
-    const perPage = parseInt(url.searchParams.get("per_page") || "15");
-    const page = parseInt(url.searchParams.get("page") || "1");
-
-    if (!org || !repo) {
-      return new NextResponse("Org and repo name is required", {
-        status: 400,
-      });
-    }
-
     const repoDetailsPromise = await octokit.request(
       "GET /repos/{owner}/{repo}",
       {
@@ -50,11 +48,14 @@ export async function GET(req: Request) {
       commitListPromise,
     ]);
 
-    const totalPages = parseInt(commitListResponse.headers.link?.match(/page=(\d+)>; rel="last"/)?.[1] ||"0");
+    const totalPages = parseInt(
+      commitListResponse.headers.link?.match(/page=(\d+)>; rel="last"/)?.[1] ||
+        "0"
+    );
     const totalCommit = totalPages * perPage;
 
     const repoDetails = repoDetailsResponse.data;
-    const commitList = commitListResponse.data; 
+    const commitList = commitListResponse.data;
 
     return NextResponse.json(
       {
