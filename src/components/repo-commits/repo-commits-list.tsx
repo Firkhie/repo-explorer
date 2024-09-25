@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import { NotFound } from "@/components/not-found";
 import { PaginationProvider } from "@/components/pagination-provider";
 import { PaginationProps } from "@/components/org-repos/org-repo-list";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 export interface RepoCommitListProps extends PaginationProps {
   commitList: {
@@ -33,11 +35,10 @@ export function RepoCommitList({
   pagination,
 }: RepoCommitListProps) {
   const { currentPage, totalPages } = pagination;
-  
+
   const searchParams = useSearchParams();
   const initialOrg = searchParams.get("org") || "";
   const initialRepo = searchParams.get("repo") || "";
-
 
   const [showFullMessage, setShowFullMessage] = useState(
     Array(commitList.length).fill(false) // set false to all array
@@ -57,6 +58,17 @@ export function RepoCommitList({
 
   return (
     <div className="col-span-12 lg:col-span-8 xl:col-span-9 space-y-4">
+      {/* Back Button */}
+      <div className="flex w-full justify-start">
+        <Link
+          href={`/org-repos?org=${initialOrg}`}
+          className="border border-input rounded-lg h-fit py-2 px-5 text-sm flex items-center gap-x-1 hover:bg-white hover:text-black"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          Back to Repo
+        </Link>
+      </div>
+      {/* Commit List */}
       <div className="border border-input rounded-lg h-fit">
         {commitList.length > 0 ? (
           commitList.map((item, index) => {
@@ -132,6 +144,7 @@ export function RepoCommitList({
           </div>
         )}
       </div>
+      {/* Pagination */}
       <PaginationProvider
         currentPage={currentPage}
         handlePageChange={handlePageChange}
