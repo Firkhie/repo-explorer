@@ -44,7 +44,7 @@ export interface OrgRepoListProps extends OrgLoginProps, PaginationProps {
 
 export function OrgRepoList({ repoList, login, pagination }: OrgRepoListProps) {
   const { currentPage, totalPages } = pagination;
-  
+
   const searchParams = useSearchParams();
   const initialOrg = searchParams.get("org") || "";
   const initialSort = searchParams.get("sort_by") || "stars";
@@ -85,40 +85,37 @@ export function OrgRepoList({ repoList, login, pagination }: OrgRepoListProps) {
                 repoList.length - 1 !== index ? "border-b-[1px]" : ""
               )}
             >
-              <Link
-                href={`/repo-commits?org=${login}&repo=${repo.name}`}
-                className="font-semibold"
-              >
-                {repo.name}
+              <Link href={`/repo-commits?org=${login}&repo=${repo.name}`} className="hover:opacity-70">
+                <p className="font-semibold">{repo.name}</p>
+                <p className="text-sm text-gray-400 line-clamp-3">
+                  {repo.description || "No description available"}
+                </p>
+                <div className="flex gap-x-5 gap-y-[6px] text-xs pt-3 flex-wrap">
+                  <div className="flex gap-x-1 items-center">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{
+                        backgroundColor:
+                          langColor[repo.language as keyof typeof langColor]
+                            ?.color || "gray",
+                      }}
+                    ></div>
+                    <p>{repo.language || "Unknown"}</p>
+                  </div>
+                  <div className="flex gap-x-1 items-center">
+                    <Star className="w-4 h-4" />
+                    <p>{repo.stargazers_count}</p>
+                  </div>
+                  <div className="flex gap-x-1 items-center">
+                    <GitFork className="w-4 h-4" />
+                    <p>{repo.forks}</p>
+                  </div>
+                  <div className="flex gap-x-1 items-center">
+                    <Eye className="w-4 h-4" />
+                    <p>{repo.watchers}</p>
+                  </div>
+                </div>
               </Link>
-              <p className="text-sm text-gray-400 line-clamp-3">
-                {repo.description || "No description available"}
-              </p>
-              <div className="flex gap-x-5 gap-y-[6px] text-xs pt-3 flex-wrap">
-                <div className="flex gap-x-1 items-center">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{
-                      backgroundColor:
-                        langColor[repo.language as keyof typeof langColor]
-                          ?.color || "gray",
-                    }}
-                  ></div>
-                  <p>{repo.language || "Unknown"}</p>
-                </div>
-                <div className="flex gap-x-1 items-center">
-                  <Star className="w-4 h-4" />
-                  <p>{repo.stargazers_count}</p>
-                </div>
-                <div className="flex gap-x-1 items-center">
-                  <GitFork className="w-4 h-4" />
-                  <p>{repo.forks}</p>
-                </div>
-                <div className="flex gap-x-1 items-center">
-                  <Eye className="w-4 h-4" />
-                  <p>{repo.watchers}</p>
-                </div>
-              </div>
             </div>
           ))
         ) : (
