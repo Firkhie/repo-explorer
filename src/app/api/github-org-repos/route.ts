@@ -57,6 +57,9 @@ export async function GET(req: Request) {
     const orgDetails = orgDetailsResponse.data;
     const repoList = repoListResponse.data;
 
+    const totalPages = Math.ceil(repoList.total_count / perPage);
+    const maxPages = Math.min(totalPages, 100); // GitHub REST API provides up to 1,000 results for each search
+
     return NextResponse.json(
       {
         orgDetails,
@@ -65,7 +68,7 @@ export async function GET(req: Request) {
           perPage,
           currentPage: page,
           totalRepos: repoList.total_count,
-          totalPages: Math.ceil(repoList.total_count / perPage),
+          totalPages: maxPages,
         },
       },
       { status: 200 }
