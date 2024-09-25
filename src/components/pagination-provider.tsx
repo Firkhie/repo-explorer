@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
 
-interface PaginationProviderProps {
+export interface PaginationProviderProps {
   currentPage: number;
   totalPages: number;
   handlePageChange: (page: number) => void;
