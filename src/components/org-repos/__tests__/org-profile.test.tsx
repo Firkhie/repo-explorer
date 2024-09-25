@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+
 import { OrgProfile } from "@/components/org-repos/org-profile";
 
-// Mock next/image and next/link
 jest.mock("next/image", () => ({
   __esModule: true,
   default: ({ src, alt }: { src: string; alt: string }) => (
@@ -45,18 +45,9 @@ describe("OrgProfile", () => {
   it("renders org profile correctly", () => {
     render(<OrgProfile orgDetails={mockOrgDetails} />);
 
-    // Check if name is rendered
     expect(screen.getByText("Test Org")).toBeInTheDocument();
-
-    // Check if the description is rendered
-    expect(
-      screen.getByText("This is a test organization.")
-    ).toBeInTheDocument();
-
-    // Check if the location is rendered
+    expect(screen.getByText("This is a test organization.")).toBeInTheDocument();
     expect(screen.getByText("Test City")).toBeInTheDocument();
-
-    // Check if public repos, followers, following, etc. are rendered
     expect(screen.getByText("10 public repositories")).toBeInTheDocument();
     expect(screen.getByText("100 followers")).toBeInTheDocument();
     expect(screen.getByText("20 following")).toBeInTheDocument();

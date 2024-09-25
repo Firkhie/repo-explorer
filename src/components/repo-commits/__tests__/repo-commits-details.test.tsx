@@ -1,8 +1,9 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
+
 import { RepoCommitsDetails } from "@/components/repo-commits/repo-commits-details";
-import { RepoProfileProps } from "../repo-profile";
-import { RepoCommitListProps } from "../repo-commits-list";
+import { RepoProfileProps } from "@/components/repo-commits/repo-profile";
+import { RepoCommitListProps } from "@/components/repo-commits/repo-commits-list";
 
 jest.mock("@/components/repo-commits/repo-profile", () => ({
   RepoProfile: ({ repoDetails }: RepoProfileProps) => (

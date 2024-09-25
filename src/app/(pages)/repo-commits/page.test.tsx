@@ -1,10 +1,12 @@
 import "@testing-library/jest-dom";
 import { act, render, screen } from "@testing-library/react";
+
+import MockAdapter from "axios-mock-adapter";
+import axios from "axios";
+
 import RepoCommitsPage from "@/app/(pages)/repo-commits/page";
 import { NotFoundProps } from "@/components/not-found";
 import { RepoCommitsDetailsProps } from "@/components/repo-commits/repo-commits-details";
-import MockAdapter from "axios-mock-adapter";
-import axios from "axios";
 
 jest.mock("next/navigation", () => {
   return {
@@ -94,11 +96,7 @@ describe("RepoCommitsPage", () => {
       render(<RepoCommitsPage />);
     });
 
-    expect(
-      await screen.findByText(
-        "Fetching repository detail and commit history list..."
-      )
-    ).toBeInTheDocument();
+    expect(await screen.findByText("Fetching repository detail and commit history list...")).toBeInTheDocument();
   });
 
   it("shows not found when there is a 404 error fetching data", async () => {
@@ -110,14 +108,8 @@ describe("RepoCommitsPage", () => {
       render(<RepoCommitsPage />);
     });
 
-    expect(
-      await screen.findByText("No commit history found")
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByText(
-        "The commit history you looking for does not exist."
-      )
-    ).toBeInTheDocument();
+    expect(await screen.findByText("No commit history found")).toBeInTheDocument();
+    expect(await screen.findByText("The commit history you looking for does not exist.")).toBeInTheDocument();
   });
 
   it("shows not found when there is a 500 error fetching data", async () => {
@@ -129,13 +121,7 @@ describe("RepoCommitsPage", () => {
       render(<RepoCommitsPage />);
     });
 
-    expect(
-      await screen.findByText("No commit history found")
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByText(
-        "The commit history you looking for does not exist."
-      )
-    ).toBeInTheDocument();
+    expect(await screen.findByText("No commit history found")).toBeInTheDocument();
+    expect(await screen.findByText("The commit history you looking for does not exist.")).toBeInTheDocument();
   });
 });

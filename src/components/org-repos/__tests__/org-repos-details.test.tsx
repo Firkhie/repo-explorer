@@ -1,8 +1,9 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
+
 import { OrgReposDetails } from "@/components/org-repos/org-repos-details";
-import { OrgProfileProps } from "../org-profile";
-import { OrgRepoListProps } from "../org-repo-list";
+import { OrgProfileProps } from "@/components/org-repos/org-profile";
+import { OrgRepoListProps } from "@/components/org-repos/org-repo-list";
 
 jest.mock("@/components/org-repos/org-profile", () => ({
   OrgProfile: ({ orgDetails }: OrgProfileProps) => (

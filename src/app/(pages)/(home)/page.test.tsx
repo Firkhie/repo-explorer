@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+
 import HomePage from "@/app/(pages)/(home)/page";
 import { OrgCardProps } from "@/components/org-card";
 
@@ -30,12 +31,10 @@ const mockOrgProfiles = [
 
 describe("HomePage", () => {
   it("renders home page", () => {
-    render(<HomePage />); // Render the HomePage
+    render(<HomePage />);
 
-    // Check if the SearchForm is rendered
     expect(screen.getByText("Search Form")).toBeInTheDocument();
 
-    // Check if OrgCards are rendered
     const orgCards = screen.getAllByTestId("org-card");
     expect(orgCards.length).toBeGreaterThan(0); // Ensure at least one OrgCard is rendered
 

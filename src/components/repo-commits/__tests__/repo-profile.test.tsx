@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+
 import { RepoProfile } from "@/components/repo-commits/repo-profile";
 
 jest.mock("next/image", () => ({

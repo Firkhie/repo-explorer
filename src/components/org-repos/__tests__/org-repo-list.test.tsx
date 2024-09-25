@@ -1,9 +1,10 @@
+import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
+
 import {
   OrgRepoList,
   OrgRepoListProps,
 } from "@/components/org-repos/org-repo-list";
-import "@testing-library/jest-dom";
 import { PaginationProviderProps } from "@/components/pagination-provider";
 
 jest.mock("next/navigation", () => ({
@@ -12,7 +13,6 @@ jest.mock("next/navigation", () => ({
   })),
 }));
 
-// Mock PaginationProvider
 jest.mock("@/components/pagination-provider", () => ({
   PaginationProvider: ({
     currentPage,
@@ -36,7 +36,6 @@ jest.mock("@/components/pagination-provider", () => ({
   ),
 }));
 
-// Sample Props
 const mockProps: OrgRepoListProps = {
   login: "test-org",
   pagination: {
@@ -67,7 +66,7 @@ const mockProps: OrgRepoListProps = {
   ],
 };
 
-describe("OrgRepoList Component", () => {
+describe("OrgRepoList", () => {
   it("renders the list of repositories", () => {
     render(<OrgRepoList {...mockProps} />);
 

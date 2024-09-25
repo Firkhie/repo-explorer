@@ -1,9 +1,11 @@
 import "@testing-library/jest-dom";
 import { act, render, screen } from "@testing-library/react";
-import OrgReposPage from "@/app/(pages)/org-repos/page";
-import { OrgReposDetailsProps } from "@/components/org-repos/org-repos-details";
+
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
+
+import OrgReposPage from "@/app/(pages)/org-repos/page";
+import { OrgReposDetailsProps } from "@/components/org-repos/org-repos-details";
 import { NotFoundProps } from "@/components/not-found";
 
 jest.mock("next/navigation", () => ({

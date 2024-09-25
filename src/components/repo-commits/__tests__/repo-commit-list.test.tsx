@@ -1,7 +1,11 @@
-import { PaginationProviderProps } from "@/components/pagination-provider";
-import { RepoCommitList, RepoCommitListProps } from "../repo-commits-list";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
+
+import { PaginationProviderProps } from "@/components/pagination-provider";
+import {
+  RepoCommitList,
+  RepoCommitListProps,
+} from "@/components/repo-commits/repo-commits-list";
 
 jest.mock("next/navigation", () => {
   return {
