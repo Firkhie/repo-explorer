@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-interface NotFoundProps {
+export interface NotFoundProps {
   title: string;
   description: string;
 }

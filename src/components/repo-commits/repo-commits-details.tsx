@@ -8,7 +8,7 @@ import {
 } from "@/components/repo-commits/repo-profile";
 import { PaginationProps } from "../org-repos/org-repo-list";
 
-interface RepoCommitsDetailsProps {
+export interface RepoCommitsDetailsProps {
   RepoCommits: {
     repoDetails: RepoProfileProps["repoDetails"];
     commitList: RepoCommitListProps["commitList"];

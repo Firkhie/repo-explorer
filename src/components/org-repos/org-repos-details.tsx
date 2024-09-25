@@ -8,7 +8,7 @@ import {
   PaginationProps,
 } from "@/components/org-repos/org-repo-list";
 
-interface OrgReposDetailsProps {
+export interface OrgReposDetailsProps {
   orgRepos: {
     orgDetails: OrgProfileProps["orgDetails"];
     repoList: OrgRepoListProps["repoList"];

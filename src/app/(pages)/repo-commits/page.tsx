@@ -53,7 +53,7 @@ export default function RepoCommitPage() {
         <div className="flex items-center justify-center h-[80vh]">
           <NotFound
             title="No commit history found"
-            description="The commit history you looking for does not exist/"
+            description="The commit history you looking for does not exist."
           />
         </div>
       )}
