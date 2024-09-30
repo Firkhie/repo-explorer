@@ -1,53 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import axios from "axios";
 import { toast } from "sonner";
 
 import { Loading } from "@/components/loading";
 import { NotFound } from "@/components/not-found";
 import { SearchForm } from "@/components/search-form";
-import { OrgCard } from "@/components/org-card";
+import { OrgCard, OrgCardProps } from "@/components/org-card";
+import useFetch from "@/hooks/useFetch";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const initialOrg = searchParams.get("org") || "";
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [orgList, setOrgList] = useState([]);
+  const { data, error, loading } = useFetch<OrgCardProps["orgProfile"][]>(
+    `/api/github-org-list?org=${initialOrg}`
+  );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!initialOrg) return;
-
-      setIsLoading(true);
-
-      try {
-        const response = await axios.get(
-          `/api/github-org-list?org=${initialOrg}`
-        );
-        setOrgList(response.data);
-      } catch (error) {
-        console.error(error);
-        setOrgList([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [initialOrg]);
+  if (error) {
+    console.error(error);
+  }
 
   const handleSearch = (org: string) => {
     if (initialOrg !== org) {
       // Update the URL with the new search query
       const newUrl = `/search?org=${org}`;
       window.history.pushState({}, "", newUrl);
-
-      // Trigger data fetching with the new org
-      setOrgList([]);
-      setIsLoading(true);
     } else {
       toast.info("You're already viewing searched organization.", {
         style: {
@@ -67,13 +45,13 @@ export default function SearchPage() {
         formButtonStyle="col-span-12 w-full lg:col-span-2"
         showMessage
       />
-      {isLoading ? (
+      {loading ? (
         <div className="flex items-center justify-center h-[65vh]">
           <Loading title="Fetching organization repositories..." />
         </div>
-      ) : orgList.length > 0 ? (
+      ) : data && data.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
-          {orgList.map((org, index) => (
+          {data.map((org, index) => (
             <OrgCard orgProfile={org} key={index} />
           ))}
         </div>

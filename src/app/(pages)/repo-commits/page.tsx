@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import axios from "axios";
 
 import { Loading } from "@/components/loading";
 import { NotFound } from "@/components/not-found";
-import { RepoCommitsDetails } from "@/components/repo-commits/repo-commits-details";
+import {
+  RepoCommitsDetails,
+  RepoCommitsDetailsProps,
+} from "@/components/repo-commits/repo-commits-details";
+import useFetch from "@/hooks/useFetch";
 
 export default function RepoCommitPage() {
   const searchParams = useSearchParams();
@@ -14,41 +16,22 @@ export default function RepoCommitPage() {
   const initialRepo = searchParams.get("repo") || "";
   const initialPage = searchParams.get("page") || "1";
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [repoCommits, setRepoCommits] = useState(null);
+  const { data, error, loading } = useFetch<RepoCommitsDetailsProps["RepoCommits"]>(
+    `/api/github-repo-commits?org=${initialOrg}&repo=${initialRepo}&page=${initialPage}`
+  );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!initialOrg || !initialRepo) return;
-
-      setIsLoading(true);
-
-      try {
-        const [repoCommitsResponse] = await Promise.all([
-          axios.get(
-            `/api/github-repo-commits?org=${initialOrg}&repo=${initialRepo}&page=${initialPage}`
-          ),
-        ]);
-        setRepoCommits(repoCommitsResponse.data);
-      } catch (error) {
-        console.error(error);
-        setRepoCommits(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [initialOrg, initialRepo, initialPage]);
+  if (error) {
+    console.error(error);
+  }
 
   return (
     <div className="h-full space-y-10 lg:space-y-16 px-5 sm:px-8 md:px-10 xl:px-0 py-7 sm:py-10">
-      {isLoading ? (
+      {loading ? (
         <div className="flex items-center justify-center h-[80vh]">
           <Loading title="Fetching repository detail and commit history list..." />
         </div>
-      ) : repoCommits ? (
-        <RepoCommitsDetails RepoCommits={repoCommits} />
+      ) : data ? (
+        <RepoCommitsDetails RepoCommits={data} />
       ) : (
         <div className="flex items-center justify-center h-[80vh]">
           <NotFound

@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import axios from "axios";
 
 import { Loading } from "@/components/loading";
 import { NotFound } from "@/components/not-found";
-import { OrgReposDetails } from "@/components/org-repos/org-repos-details";
+import {
+  OrgReposDetails,
+  OrgReposDetailsProps,
+} from "@/components/org-repos/org-repos-details";
+import useFetch from "@/hooks/useFetch";
 
 export default function OrgRepoPage() {
   const searchParams = useSearchParams();
@@ -14,39 +16,22 @@ export default function OrgRepoPage() {
   const initialSortBy = searchParams.get("sort_by") || "stars";
   const initialPage = searchParams.get("page") || "1";
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [orgRepos, setOrgRepos] = useState(null);
+  const url = `/api/github-org-repos?org=${initialOrg}&sort_by=${initialSortBy}&page=${initialPage}`;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!initialOrg) return;
+  const { data, error, loading } = useFetch<OrgReposDetailsProps["orgRepos"]>(url);
 
-      setIsLoading(true);
-
-      try {
-        const response = await axios.get(
-          `/api/github-org-repos?org=${initialOrg}&sort_by=${initialSortBy}&page=${initialPage}`
-        );
-        setOrgRepos(response.data);
-      } catch (error) {
-        console.error(error);
-        setOrgRepos(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [initialOrg, initialSortBy, initialPage]);
+  if (error) {
+    console.error(error);
+  }
 
   return (
     <div className="h-full space-y-10 lg:space-y-16 px-5 sm:px-8 md:px-10 xl:px-0 py-7 sm:py-10">
-      {isLoading ? (
+      {loading ? (
         <div className="flex items-center justify-center h-[80vh]">
           <Loading title="Fetching organization repositories..." />
         </div>
-      ) : orgRepos ? (
-        <OrgReposDetails orgRepos={orgRepos} />
+      ) : data ? (
+        <OrgReposDetails orgRepos={data} />
       ) : (
         <div className="flex items-center justify-center h-[80vh]">
           <NotFound
